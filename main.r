@@ -1,79 +1,43 @@
-library(Rcpp)
 library(ggplot2)
 
-
-sourceCpp("mergeSort.cpp")
-sourceCpp("quickSort.cpp")
-sourceCpp("bubbleSort.cpp")
+library(Rcpp)
+library(reticulate)
 
 
-tam <- 100000
+# Carregar os scripts de ordenação
+source("ordenacaoR.r")
+sourceCpp("ordenacaoCpp.cpp")
+source_python("ordenacaoPython.py")
+
+# Tamanho do vetor e geração do vetor original
+tam <- 100
 vetor_original <- sample(1:10000, tam, replace = TRUE)
 
-
+# DataFrame para armazenar os resultados
 time_results <- data.frame(Algoritmo = character(), Tempo = numeric(), Linguagem = character(), stringsAsFactors = FALSE)
 
-bubble_sort_r <- function(v) {
-  for (i in seq_along(v)) {
-    for (j in seq_len(length(v) - i)) {
-      if (v[j] > v[j + 1]) {
-        temp <- v[j]
-        v[j] <- v[j + 1]
-        v[j + 1] <- temp
-      }
-    }
-  }
-  return(v)
+# Função para medir o tempo de execução e registrar os resultados
+registrar_tempo <- function(algoritmo, linguagem, funcao, vetor) {
+  tempo <- system.time(funcao(vetor))[3]  # Tempo de execução (em segundos)
+  time_results <<- rbind(time_results, data.frame(Algoritmo = algoritmo, Tempo = tempo, Linguagem = linguagem))
 }
 
-merge_sort_r <- function(v) {
-  if (length(v) <= 1) return(v)
-  meio <- floor(length(v) / 2)
-  esquerda <- merge_sort_r(v[1:meio])
-  direita <- merge_sort_r(v[(meio + 1):length(v)])
-  return(merge(esquerda, direita))
-}
+# Comparação em R
+registrar_tempo("Bubble Sort", "R", bubbleSortR, vetor_original)
+registrar_tempo("Merge Sort", "R", mergeSortR, vetor_original)
+registrar_tempo("Quick Sort", "R", quickSortR, vetor_original)
 
-quick_sort_r <- function(v) {
-  if (length(v) <= 1) return(v)
-  pivo <- v[1]
-  esquerda <- quick_sort_r(v[v < pivo])
-  direita <- quick_sort_r(v[v > pivo])
-  return(c(esquerda, pivo, v[v == pivo][-1], direita))
-}
+# Comparação em C++
+registrar_tempo("Bubble Sort", "C++", bubbleSortCpp, vetor_original)
+registrar_tempo("Merge Sort", "C++", mergeSortCpp, vetor_original)
+registrar_tempo("Quick Sort", "C++", quickSortCpp, vetor_original)
 
+# Comparação em Python
+registrar_tempo("Bubble Sort", "Python", bubbleSortPython, r_to_py(vetor_original))
+registrar_tempo("Merge Sort", "Python", mergeSortPython, r_to_py(vetor_original))
+registrar_tempo("Quick Sort", "Python", quickSortPython, r_to_py(vetor_original))
 
-vetor <- vetor_original
-time_results <- rbind(time_results, data.frame(
-  Algoritmo = "Bubble Sort", Tempo = system.time(bubble_sort_r(vetor))[3], Linguagem = "R"
-))
-
-vetor <- vetor_original
-time_results <- rbind(time_results, data.frame(
-  Algoritmo = "Merge Sort", Tempo = system.time(merge_sort_r(vetor))[3], Linguagem = "R"
-))
-
-vetor <- vetor_original
-time_results <- rbind(time_results, data.frame(
-  Algoritmo = "Quick Sort", Tempo = system.time(quick_sort_r(vetor))[3], Linguagem = "R"
-))
-
-
-vetor <- vetor_original
-time_results <- rbind(time_results, data.frame(
-  Algoritmo = "Bubble Sort", Tempo = system.time(bubbleSort(vetor))[3], Linguagem = "C++"
-))
-
-vetor <- vetor_original
-time_results <- rbind(time_results, data.frame(
-  Algoritmo = "Merge Sort", Tempo = system.time(mergeSortR(vetor))[3], Linguagem = "C++"
-))
-
-vetor <- vetor_original
-time_results <- rbind(time_results, data.frame(
-  Algoritmo = "Quick Sort", Tempo = system.time(quick_sort(vetor))[3], Linguagem = "C++"
-))
-
+# Plot dos resultados
 print(
   ggplot(time_results, aes(x = Algoritmo, y = Tempo, group = Linguagem, color = Linguagem)) +
     geom_line(size = 1) +
