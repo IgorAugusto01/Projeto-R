@@ -27,16 +27,15 @@ def quickSortPython(vetor):
 #MERGESORT
 def mergeSortPython(vetor):
     if len(vetor) <= 1:
-        return vetor  # Retorna o vetor diretamente se ele tiver 0 ou 1 elemento (já está ordenado)
+        return vetor  
 
     meio = len(vetor) // 2
-    esq = mergeSortPython(vetor[:meio])  # Divide e ordena a metade esquerda
-    dir = mergeSortPython(vetor[meio:])  # Divide e ordena a metade direita
+    esq = mergeSortPython(vetor[:meio])  
+    dir = mergeSortPython(vetor[meio:])  
 
-    return merge(esq, dir)  # Combina as duas metades ordenadas
+    return merge(esq, dir)  
 
 def merge(esq, dir):
-    # Certifique-se de que 'esq' e 'dir' são listas
     if not isinstance(esq, list):
         esq = [esq]
     if not isinstance(dir, list):
@@ -45,7 +44,6 @@ def merge(esq, dir):
     vetorOrdenado = []
     i = j = 0
 
-    # Combina as duas listas ordenadas
     while i < len(esq) and j < len(dir):
         if esq[i] < dir[j]:
             vetorOrdenado.append(esq[i])
@@ -54,20 +52,7 @@ def merge(esq, dir):
             vetorOrdenado.append(dir[j])
             j += 1
 
-    # Adiciona os elementos restantes
     vetorOrdenado.extend(esq[i:])
     vetorOrdenado.extend(dir[j:])
     
     return vetorOrdenado
-
-
-
-def selectionSortPython(arr):
- tamanho = len(arr)
- for i in range(tamanho):
-        min_idx = i
-        for j in range(i+1, tamanho):
-            if arr[j] < arr[min_idx]:
-                min_idx = j
-        arr[i], arr[min_idx] = arr[min_idx], arr[i]
- return arr
