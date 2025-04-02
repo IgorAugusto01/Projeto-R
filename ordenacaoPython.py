@@ -59,3 +59,15 @@ def merge(esq, dir):
     vetorOrdenado.extend(dir[j:])
     
     return vetorOrdenado
+
+
+
+def selectionSortPython(arr):
+ tamanho = len(arr)
+ for i in range(tamanho):
+        min_idx = i
+        for j in range(i+1, tamanho):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+ return arr
