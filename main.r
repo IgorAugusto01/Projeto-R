@@ -42,7 +42,7 @@ registrar_tempo("Quick Sort", "Python", quickSortPython, r_to_py(vetor_original)
 file_name <- "resultados_ordenacao.csv"
 
 # Criar um cabeçalho com o tamanho do vetor e a data/hora da execução
-header <- paste("\nTamanho do Vetor:", tam, "- Execução em:", Sys.time(), "\n")
+header <- paste("\nTamanho do Vetor :", tam, "- Execução em:", Sys.time(), "\n")
 
 # Escrever o cabeçalho no arquivo CSV (sempre adicionando)
 write(header, file = file_name, append = TRUE)
