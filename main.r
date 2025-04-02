@@ -24,16 +24,19 @@ registrar_tempo <- function(algoritmo, linguagem, funcao, vetor) {
 }
 
 # Comparação em R
+registrar_tempo("Selection Sort", "R", selectionSortR, vetor_original)
 registrar_tempo("Bubble Sort", "R", bubbleSortR, vetor_original)
 registrar_tempo("Merge Sort", "R", mergeSortR, vetor_original)
 registrar_tempo("Quick Sort", "R", quickSortR, vetor_original)
 
 # Comparação em C++
+registrar_tempo("Selection Sort", "C++", selectionSortCpp, vetor_original)
 registrar_tempo("Bubble Sort", "C++", bubbleSortCpp, vetor_original)
 registrar_tempo("Merge Sort", "C++", mergeSortCpp, vetor_original)
 registrar_tempo("Quick Sort", "C++", quickSortCpp, vetor_original)
 
 # Comparação em Python
+registrar_tempo("Selection Sort", "Python", selectionSortPython, r_to_py(vetor_original))
 registrar_tempo("Bubble Sort", "Python", bubbleSortPython, r_to_py(vetor_original))
 registrar_tempo("Merge Sort", "Python", mergeSortPython, r_to_py(vetor_original))
 registrar_tempo("Quick Sort", "Python", quickSortPython, r_to_py(vetor_original))
@@ -42,7 +45,7 @@ registrar_tempo("Quick Sort", "Python", quickSortPython, r_to_py(vetor_original)
 file_name <- "resultados_ordenacao.csv"
 
 # Criar um cabeçalho com o tamanho do vetor e a data/hora da execução
-header <- paste("\nTamanho do Vetor :", tam, "- Execução em:", Sys.time(), "\n")
+header <- paste("\nTamanho do Vetor:", tam, "- Execução em:", Sys.time(), "\n")
 
 # Escrever o cabeçalho no arquivo CSV (sempre adicionando)
 write(header, file = file_name, append = TRUE)
