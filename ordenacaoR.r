@@ -27,8 +27,9 @@ quickSortR <- function(v) {
   if (length(v) <= 1) return(v)
   pivo <- v[1]
   esquerda <- quickSortR(v[v < pivo])
+  meio <- v[v == pivo]  # Mantém todas as ocorrências do pivô
   direita <- quickSortR(v[v > pivo])
-  return(c(esquerda, pivo, v[v == pivo][-1], direita))
+  return(c(esquerda, meio, direita))  # Junta as três partes
 }
 
 ##########################################################
