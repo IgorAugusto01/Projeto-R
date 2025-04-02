@@ -1,112 +1,114 @@
 #include <Rcpp.h>
+#include <vector>
 
 using namespace Rcpp;
 
-// SELECTION SORT
-void selectionSort(double array[], int size) {
-    int minor;
-    double key;
-    
-    for (int i = 0; i < size - 1; i++) {
-        minor = i;
-        for (int j = i + 1; j < size; j++) {
-            if (array[j] < array[minor]) {
-                minor = j;
-            }
-        }
-        if (minor != i) {
-            key = array[minor];
-            array[minor] = array[i];
-            array[i] = key;
-        }
-    }
-}
+// BUBLESORT
 
-// BUBBLE SORT
-void bubbleSort(int array[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                int temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
+// [[Rcpp::export]]
+void bubbleSortCpp(std::vector<int> &vetor) {
+    int n = vetor.size();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (vetor[j] > vetor[j + 1]) {
+                std::swap(vetor[j], vetor[j + 1]);
             }
         }
     }
 }
 
-// QUICK SORT
-int partition(int array[], int low, int high) {
-    int pivot = array[high];
-    int i = low - 1;
-    
-    for (int j = low; j < high; j++) {
-        if (array[j] < pivot) {
+// QUICKSORT
+
+int partition(std::vector<int>& vetor, int inicio, int fim) {
+    int pivo = vetor[fim];
+    int i = inicio - 1;
+
+    for (int j = inicio; j < fim; j++) {
+        if (vetor[j] < pivo) {
             i++;
-            int temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+            std::swap(vetor[i], vetor[j]);
         }
     }
-    int temp = array[i + 1];
-    array[i + 1] = array[high];
-    array[high] = temp;
+    std::swap(vetor[i + 1], vetor[fim]);
     return i + 1;
 }
 
-void quickSort(int array[], int low, int high) {
-    if (low < high) {
-        int pi = partition(array, low, high);
-        quickSort(array, low, pi - 1);
-        quickSort(array, pi + 1, high);
+
+void quickSort(std::vector<int>& vetor, int inicio, int fim) {
+    if (inicio < fim) {
+        int pi = partition(vetor, inicio, fim);
+
+        quickSort(vetor, inicio, pi - 1);
+        quickSort(vetor, pi + 1, fim);
     }
 }
 
-// MERGE SORT
-void merge(int array[], int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+// [[Rcpp::export]]
+std::vector<int> quickSortCpp(std::vector<int> vetor) {
+    quickSort(vetor, 0, vetor.size() - 1);
+    return vetor;
+}
+
+// MERGESORT
+
+void merge(std::vector<int>& vetor, int l, int m, int r) {
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    std::vector<int> L(n1), R(n2);
+
     
-    int L[n1], R[n2];
     for (int i = 0; i < n1; i++) {
-        L[i] = array[left + i];
+        L[i] = vetor[l + i];
     }
     for (int j = 0; j < n2; j++) {
-        R[j] = array[mid + 1 + j];
+        R[j] = vetor[m + 1 + j];
     }
+
     
-    int i = 0, j = 0, k = left;
+    int i = 0, j = 0, k = l;
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
-            array[k] = L[i];
+            vetor[k] = L[i];
             i++;
         } else {
-            array[k] = R[j];
+            vetor[k] = R[j];
             j++;
         }
         k++;
     }
+
     
     while (i < n1) {
-        array[k] = L[i];
+        vetor[k] = L[i];
         i++;
         k++;
     }
-    
+
+  
     while (j < n2) {
-        array[k] = R[j];
+        vetor[k] = R[j];
         j++;
         k++;
     }
 }
 
-void mergeSort(int array[], int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;
-        mergeSort(array, left, mid);
-        mergeSort(array, mid + 1, right);
-        merge(array, left, mid, right);
+
+void mergeSort(std::vector<int>& vetor, int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
+
+        mergeSort(vetor, l, m);
+        mergeSort(vetor, m + 1, r);
+
+        merge(vetor, l, m, r);
     }
 }
 
+
+// [[Rcpp::export]]
+std::vector<int> mergeSortCpp(std::vector<int> vetor) {
+    mergeSort(vetor, 0, vetor.size() - 1);
+    return vetor;
+}
 

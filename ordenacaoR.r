@@ -2,28 +2,6 @@
 
 # Ordenacao R
 
-selectionSort <- function(array) {
-  n <- length(array)
-  
-  for (i in 1:(n - 1)) {
-    minor <- i
-    
-    for (j in (i + 1):n) {
-      if (array[j] < array[minor]) {
-        minor <- j
-      }
-    }
-    
-    if (minor != i) {
-      key <- array[minor]
-      array[minor] <- array[i]
-      array[i] <- key
-    }
-  }
-  
-  return(array)
-}
-
 bubbleSortR <- function(v) {
   for (i in seq_along(v)) {
     for (j in seq_len(length(v) - i)) {
