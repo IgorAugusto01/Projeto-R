@@ -1,0 +1,36 @@
+
+Tamanho do Vetor: 10000 - Execução em: 2025-04-02 15:14:55.291353 
+
+"Bubble Sort",11.22,"R",10000
+"Merge Sort",0.46999999999997,"R",10000
+"Quick Sort",0.0299999999999727,"R",10000
+"Bubble Sort",0.319999999999993,"C++",10000
+"Merge Sort",0,"C++",10000
+"Quick Sort",0,"C++",10000
+"Bubble Sort",13.25,"Python",10000
+"Merge Sort",0.0400000000000205,"Python",10000
+"Quick Sort",0.0500000000000114,"Python",10000
+
+Tamanho do Vetor: 20000 - Execução em: 2025-04-02 15:21:10.87541 
+
+"Bubble Sort",49860,"R",20000
+"Merge Sort",960.000000000036,"R",20000
+"Quick Sort",40.0000000000773,"R",20000
+"Bubble Sort",1360.00000000001,"C++",20000
+"Merge Sort",0,"C++",20000
+"Quick Sort",0,"C++",20000
+"Bubble Sort",44950,"Python",20000
+"Merge Sort",110.000000000014,"Python",20000
+"Quick Sort",70.00000000005,"Python",20000
+
+Tamanho do Vetor: 30000 - Execução em: 2025-04-02 15:29:13.080441 
+
+"Bubble Sort",129380,"R",30000
+"Merge Sort",2450.00000000005,"R",30000
+"Quick Sort",109.9999999999,"R",30000
+"Bubble Sort",5310.00000000017,"C++",30000
+"Merge Sort",9.99999999999091,"C++",30000
+"Quick Sort",0,"C++",30000
+"Bubble Sort",155860,"Python",30000
+"Merge Sort",240.000000000009,"Python",30000
+"Quick Sort",190.000000000055,"Python",30000
